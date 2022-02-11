@@ -19,9 +19,13 @@ public class HelloController {
     // response to requests at /bonjour
     @GetMapping("bonjour")
     @ResponseBody
-    public String bounjour() {
-        return "Bonjour, Spring!";
+    public String bonjour() {
+        return "Bonjour";
     }
+
+
+
+
 
     // responds to GET requests like /hello/hello?name=Chris
     @GetMapping("hello")
@@ -37,17 +41,41 @@ public class HelloController {
         return "Hello, " + name + "!";
     }
 
+
+
+
+
     // /hello/hello-forms
     @GetMapping("hello-forms")
     @ResponseBody
     public String helloForms() {
-        return "<form method='POST'><input name='name' type='text'><button type='submit'>Greet Me!</button></form>";
+        return "<form method='POST'>" +
+                "<input name='name' type='text'>" +
+                "<label for='language-select'>Choose a language:</label>" +
+                " <select name='language' id='language-select'>" +
+                "<option value=''>language</option>" +
+                "<option value='Hallo'>German</option>" +
+                "<option value='Hola'>Spanish</option>" +
+                "<option value='Hello'>English</option>" +
+                "<option value='Bounjounorno'>Italian</option>" +
+                "<option value='Bonjour'>French</option>" +
+                "</select>" +
+                "<button type='submit'>Greet Me!</button></form>";
     }
+
+
+
 
     @PostMapping("hello-forms")
     @ResponseBody
-    public String helloForms(@RequestParam String name) {
-        return "Hello, " + name + "!";
+    public String helloForms(@RequestParam String language, String name) {
+        return createMessage(language, name);
+    }
+
+    @GetMapping("hello-forms-display")
+    @ResponseBody
+    public static String createMessage(@RequestParam String language, String name) {
+        return  language + ", " + name + "!";
     }
 
 }
